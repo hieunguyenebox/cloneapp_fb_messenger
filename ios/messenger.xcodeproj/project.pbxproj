@@ -194,7 +194,6 @@
 				CFB9A75BC0187A95339683D0 /* Pods-messenger-tvOSTests.debug.xcconfig */,
 				703086F8BD51930F0F69D69F /* Pods-messenger-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

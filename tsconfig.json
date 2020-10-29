@@ -12,10 +12,11 @@
     "noEmit": true,
     "strict": true,
     "target": "esnext",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
       "~/*": [
-        "./src/*",
+        "src/*",
       ]
     }
   },
