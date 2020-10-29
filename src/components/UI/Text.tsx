@@ -1,0 +1,27 @@
+import styled from 'styled-components/native'
+import { COLORS } from './Constants'
+
+export interface CustomTextProps {
+  size?: number
+  color?: string
+  margin?: string
+  padding?: string
+  bold?: boolean | string | number
+  centered?: boolean
+}
+
+// Font weight không work trên Android. Sử dụng font family.
+const Text = styled.Text<CustomTextProps>`
+  font-size: ${(p) => p.size || 14}px;
+  font-family: ${({ bold }) => (bold ? 'Muli-Bold' : 'Muli-Regular')};
+  color: ${(p) => p.color || COLORS.text};
+  margin: ${(p) => p.margin || '0'};
+  padding: ${(p) => p.padding || '0'};
+  text-align: ${(p) => (p.centered ? 'center' : 'left')};
+`
+
+Text.defaultProps = {
+  allowFontScaling: false,
+}
+
+export default Text
