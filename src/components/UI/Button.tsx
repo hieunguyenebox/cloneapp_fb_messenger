@@ -2,7 +2,8 @@
 //#region
 import hexToRgba from 'hex-to-rgba'
 import React from 'react'
-import { TouchableOpacityProps } from 'react-native'
+import { Platform, TouchableOpacityProps, TouchableOpacity as TouchableOpacityOrigin } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import Box, { BoxProps } from './Box'
 import { COLORS } from './Constants'
@@ -23,8 +24,8 @@ interface RootProps {
   shadow?: boolean
   shadowColor?: string
 }
-
-const Root = styled.TouchableOpacity<RootProps>`
+const Touch = Platform.select({ ios: TouchableOpacity, android: TouchableOpacityOrigin })!
+const Root = styled(Touch) <RootProps & TouchableOpacityProps>`
   margin: ${(p) => p.m || '0'};
   ${(p) => (p.shadow ? `box-shadow: 0 4px 10px ${p.shadowColor || hexToRgba('#87a7ab', 0.5)}` : '')};
 `
@@ -63,7 +64,7 @@ const Button: React.FC<Props & RootProps & TouchableOpacityProps> = ({
   if (primary) {
     return (
       <Root disabled={disabled} {...rest}>
-        <StyledButton
+        {/* <StyledButton
           as={LinearGradient}
           {...boxProps}
           height={height}
@@ -76,7 +77,7 @@ const Button: React.FC<Props & RootProps & TouchableOpacityProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}>
           {children}
-        </StyledButton>
+        </StyledButton> */}
       </Root>
     )
   }
