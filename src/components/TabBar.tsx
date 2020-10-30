@@ -29,11 +29,11 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
       let label = ''
       let icon = null
       switch (route.name) {
-        case 'chat':
+        case 'tab_chat':
           label = 'Chats'
           icon = <Icon size={26} color={color} name='chatbubble' />
           break;
-        case 'people':
+        case 'tab_people':
           label = 'People';
           icon = <Icon size={26} color={color} name='people' />
           break;
@@ -53,7 +53,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
       return (
         <TouchableOpacity onPress={onPress} activeOpacity={1} key={route.name}>
-          <Box align='center' justify='center' width={getWidth(50)}>
+          <Box height='100%' align='center' justify='center' width={getWidth(50)}>
             {icon}
             <Text size={12} color={color}>
               {label}
@@ -73,7 +73,6 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
       row
     >
       <BlurView
-        key='blurview'
         style={{
           position: 'absolute',
           width: getWidth(100),

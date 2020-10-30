@@ -11,7 +11,6 @@ import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 enableScreens();
 
 const Tab = createBottomTabNavigator()
-
 const ChatNavigation = createNativeStackNavigator()
 
 const ChatStack = () => {
@@ -40,7 +39,6 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         tabBar={props => <TabBar {...props} />}
-
       >
         <Tab.Screen name='tab_chat' component={ChatStack} />
         <Tab.Screen name='tab_people' component={People} />
