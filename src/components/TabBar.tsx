@@ -23,7 +23,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
       // const { options } = descriptors[route.key]
       const isFocused = state.index === index
-      const color = isFocused ? '#fff' : hexToRgba('#fff', 0.5)
+      const color = isFocused ? '#000' : hexToRgba('#000', 0.5)
 
 
       let label = ''
@@ -79,7 +79,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
           width: getWidth(100),
           height
         }}
-        blurType='materialDark'
+        blurType='materialLight'
         blurAmount={10}
       />
       {tabs}

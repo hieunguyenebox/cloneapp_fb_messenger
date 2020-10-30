@@ -10,7 +10,7 @@ const MyContainer = styled(ScrollView)`
 
 const Chat = () => {
   return (
-    <MyContainer style={{ backgroundColor: '#000', flex: 1, borderWidth: 1 }}>
+    <MyContainer style={{ backgroundColor: '#fff', flex: 1, borderWidth: 1 }}>
       <Text size={70}>
         hehe
       </Text>
@@ -38,19 +38,19 @@ const Chat = () => {
       <Text size={70}>
         hehe
       </Text>
-      <Text color='#fff' size={70}>
+      <Text color='#000' size={70}>
         hehe
       </Text>
-      <Text color='#fff' size={70}>
+      <Text color='#000' size={70}>
         hehe
       </Text>
-      <Text color='#fff' size={70}>
+      <Text color='#000' size={70}>
         hehe
       </Text>
-      <Text color='#fff' size={70}>
+      <Text color='#000' size={70}>
         hehe
       </Text>
-      <Text color='#fff' size={70}>
+      <Text color='#000' size={70}>
         hehe
       </Text>
       
