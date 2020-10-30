@@ -1,22 +1,34 @@
 import React from 'react'
 import { State, TapGestureHandler } from 'react-native-gesture-handler'
-import Animated, { and, block, cond, eq, set, useCode } from 'react-native-reanimated'
-import { useValue, useTapGestureHandler } from 'react-native-redash'
+import Animated, { and, block, call, cond, eq, set, useCode } from 'react-native-reanimated'
+import { useValue, useTapGestureHandler, contains } from 'react-native-redash'
 
 const TapButton: React.FC<{
   onPress?: Animated.Node<number>,
   onPressIn?: Animated.Node<number>,
+  onPressOut?: Animated.Node<number>,
   children: React.ReactElement<Animated.View>
-}> = ({ onPress, onPressIn, children }) => {
+}> = ({ onPress, onPressOut, onPressIn, children }) => {
 
   const { state, gestureHandler } = useTapGestureHandler()
   const pressed = useValue(0)
 
   useCode(() => block([
+    call([state], console.log),
     cond(
       eq(state, State.BEGAN),
-      set(pressed, 1),
-      onPressIn ? onPressIn : 0
+      [
+        onPressIn ? onPressIn : 0,
+        set(pressed, 1),
+
+      ]
+    ),
+    cond(
+      contains([State.FAILED, State.CANCELLED, State.END], state),
+      [
+        set(pressed, 0),
+        onPressOut ? onPressOut : 0
+      ]
     ),
     cond(
       and(
@@ -24,8 +36,8 @@ const TapButton: React.FC<{
         pressed,
       ),
       [
+        onPress ? onPress : 0,
         set(pressed, 0),
-        onPress ? onPress : 0
       ]
     )
   ]), [onPress])

@@ -20,7 +20,7 @@ const ChatStack = () => {
         headerTranslucent: true,
         headerStyle: {
           backgroundColor: 'transparent',
-          blurEffect: 'systemChromeMaterialLight'
+          blurEffect: 'systemUltraThinMaterialLight'
         }
       }}
     >

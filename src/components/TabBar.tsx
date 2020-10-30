@@ -78,7 +78,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
           width: getWidth(100),
           height
         }}
-        blurType='materialLight'
+        blurType='ultraThinMaterialLight'
         blurAmount={10}
       />
       {tabs}
