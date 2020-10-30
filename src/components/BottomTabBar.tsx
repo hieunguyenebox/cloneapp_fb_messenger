@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BlurView, VibrancyView } from '@react-native-community/blur'
 import hexToRgba from 'hex-to-rgba'
 
-const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
+const BottomTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
   state,
   navigation,
   descriptors
@@ -53,7 +53,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
       return (
         <TouchableOpacity onPress={onPress} activeOpacity={1} key={route.name}>
-          <Box height='100%' align='center' justify='center' width={getWidth(50)}>
+          <Box style={{ paddingTop: 5 }} height='100%' align='center' width={getWidth(50)}>
             {icon}
             <Text size={12} color={color}>
               {label}
@@ -65,11 +65,12 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
   }, [state, navigation, descriptors])
 
-  const height = 50 + bottom
+  const height = 48 + bottom
   return (
     <Box
       style={{ position: 'absolute', bottom: 0 }}
-      p='10px 0' width={getWidth(100)} height={height}
+      width={getWidth(100)}
+      height={height}
       row
     >
       <BlurView
@@ -87,4 +88,4 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
 }
 
-export default TabBar
+export default BottomTabBar

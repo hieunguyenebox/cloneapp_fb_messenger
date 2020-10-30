@@ -17,7 +17,7 @@ import Animated, { block } from 'react-native-reanimated';
 import OnLine from './Online';
 import MessageRow from './MessageRow';
 
-const MyContainer = styled(SafeAreaView)`
+const MyContainer = styled.View`
 `
 
 const fakeUsers: User[] = []
@@ -74,7 +74,6 @@ const Chat = () => {
           maxHeight: 100,
           paddingLeft: 10,
           paddingRight: 10,
-          marginTop: 10,
           marginBottom: 20
         }}
         decelerationRate={0.991}
@@ -89,14 +88,15 @@ const Chat = () => {
     )
   }
   return (
-    <MyContainer style={{ backgroundColor: '#fff', flex: 1 }}>
+    <MyContainer
+      style={{ backgroundColor: '#fff', flex: 1 }}>
       <FlatList
         removeClippedSubviews
-        style={{ paddingTop: top }}
         ListHeaderComponent={HeaderList}
         data={fakeChatUsers}
         renderItem={renderItemChat}
         keyExtractor={keyExtractorChat}
+        contentContainerStyle={{ paddingBottom: bottom + 48, paddingTop: 10 }}
       />
     </MyContainer>
   )
