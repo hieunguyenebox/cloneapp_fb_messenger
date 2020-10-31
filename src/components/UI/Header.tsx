@@ -6,70 +6,67 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 import Icon from './Icon'
 import Box from './Box'
-import { HEADER_HEIGHT } from './Constants'
 import Text, { CustomTextProps } from './Text'
 import { getWidth } from '~/modules/screen'
 import Button from './Button'
+import { useNavigation } from '@react-navigation/native'
+import appStore from '~/modules/stores/app_store'
 
 interface Props {
-  shadow?: boolean
-  as?: any
   align?: string
-  shadowColor?: string
   borderBottom?: boolean
-  justify?: 'center' | 'space-between' | 'space-around' | 'flex-start' | 'flex-end' | 'baseline'
-}
-const StyledHeader = styled.View<Props & { safeTop: number }>`
-  flex-direction: row;
-  position: relative;
-  align-items: ${(p) => p.align || 'center'};
-  justify-content: ${(p) => p.justify || 'center'};
-  height: ${(p) => p.safeTop + HEADER_HEIGHT}px;
-  padding: 0px 20px;
-  width: ${getWidth(100)};
-  padding-top: ${(p) => p.safeTop}px;
-  background-color: #fff;
-  border-bottom-width: ${p => p.borderBottom ? '0.5px' : '0px'};
-  border-bottom-color: rgba(0,0,0,0.2)
-  ${(p) =>
-    p.shadow
-      ? `box-shadow: 0 2px 4px ${p.shadowColor ? p.shadowColor : hexToRgba('#000', 0.1)}`
-      : ''};
-  z-index: 100;
-`
-
-const Header: React.FC<Props & ViewProps> = ({ justify = 'space-between', ...rest }) => {
-  const { top } = useSafeAreaInsets()
-  return <StyledHeader {...rest} justify={justify} safeTop={top} />
-}
-
-export const NavigationBar: React.FC<{
   title?: string | React.ReactElement
   titleStyle?: TextProps & CustomTextProps
-  headerStyle?: Props
-  componentId?: string
   right?: React.ReactElement | null
   left?: React.ReactElement | null
-}> = ({ title, titleStyle, right, componentId, headerStyle, left }) => {
+  pressBack?: () => void
+}
+const StyledHeader = styled.View<Props>`
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  width: ${getWidth(100)}px;
+  background-color: #fff;
+  border-bottom-width: ${p => p.borderBottom ? '0.5px' : '0px'};
+  border-bottom-color: rgba(0,0,0,0.2);
+  z-index: 100;
+`
+const MyHeader: React.FC<Props & ViewProps> = ({
+  title, titleStyle, right, left, pressBack,
+  style,
+  ...rest
+}) => {
 
-  const onPress = useCallback(() => {
-    
-  }, [componentId])
+  const { top } = useSafeAreaInsets()
+  const navigation = useNavigation()
+  const onPress = () => {
+    if (pressBack) {
+      pressBack()
+    } else {
+      if (navigation.canGoBack()) {
+        navigation.goBack()
+      }
+    }
+  }
+
   return (
-    <Header shadow {...headerStyle} style={{ paddingLeft: 0, paddingRight: 0 }}>
-      <Box align='center' justify='center' style={{ zIndex: 2 }}>
+    <StyledHeader
+      style={[{ height: appStore.HeaderHeight, paddingTop: top }, style]}
+      {...rest}
+    >
+      <Box
+        width={getWidth(15)}
+        height='100%' align='center' justify='center'>
         {left !== undefined ? left : (
-          <Button width={48} height='100%' onPress={onPress}>
-            <Icon name='back-screen' size={18} />
+          <Button style={{ paddingLeft: 20 }} onPress={onPress}>
+            <Icon name='chevron-back' size={30} />
           </Button>
         )}
       </Box>
       <Box
         height='100%'
         style={{
-          position: 'absolute',
-          width: getWidth(100),
-          bottom: 0
+          flex: 1,
         }}
         justify='center'
         align='center'
@@ -81,11 +78,11 @@ export const NavigationBar: React.FC<{
           : title
         }
       </Box>
-      <Box align='center' justify='center' style={{ zIndex: 3 }}>
+      <Box width={getWidth(15)} height='100%' align='center' justify='center'>
         {right}
       </Box>
-    </Header>
+    </StyledHeader>
   )
 }
 
-export default Header
+export default MyHeader

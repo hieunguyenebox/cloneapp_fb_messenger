@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { BottomTabBarOptions, BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import Box from "~/components/UI/Box"
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -6,8 +6,10 @@ import Icon from './UI/Icon'
 import Text from './UI/Text'
 import { getWidth } from '~/modules/screen'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { BlurView, VibrancyView } from '@react-native-community/blur'
+import { BlurView } from '@react-native-community/blur'
 import hexToRgba from 'hex-to-rgba'
+import appStore from '~/modules/stores/app_store'
+import { observer } from 'mobx-react-lite'
 
 const BottomTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
   state,
@@ -16,6 +18,11 @@ const BottomTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 }) => {
 
   const { bottom } = useSafeAreaInsets()
+  const height = 48 + bottom
+
+  useEffect(() => {
+    appStore.setBottomTabHeight(height)
+  }, [bottom])
 
   const tabs = useMemo(() => {
 
@@ -65,7 +72,6 @@ const BottomTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
   }, [state, navigation, descriptors])
 
-  const height = 48 + bottom
   return (
     <Box
       style={{ position: 'absolute', bottom: 0 }}
@@ -88,4 +94,4 @@ const BottomTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
 }
 
-export default BottomTabBar
+export default observer(BottomTabBar)

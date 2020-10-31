@@ -1,22 +1,16 @@
 import React from 'react'
-import { StackHeaderProps, useHeaderHeight } from '@react-navigation/stack'
-import Box from '~/components/UI/Box'
-import { Animated } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { StackHeaderProps } from '@react-navigation/stack'
+import MyHeader from '../UI/Header'
 
-const ChatHeader: React.FC<StackHeaderProps> = ({ scene, previous, navigation }) => {
-
-  const height = useSafeAreaInsets().top + 48
+const ChatHeader: React.FC<StackHeaderProps> = ({ }) => {
 
   return (
-    <Box
-      height={height}
-      as={Animated.View}
-      bg='#fff'
-      style={{borderWidth: 1}}
-    >
-
-    </Box>
+    <MyHeader
+      title='Chats'
+      style={{ position: 'absolute', backgroundColor: 'transparent' }}
+      left={null}
+      titleStyle={{ bold: true }}
+    />
   )
 }
 

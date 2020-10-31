@@ -14,7 +14,6 @@ const TapButton: React.FC<{
   const pressed = useValue(0)
 
   useCode(() => block([
-    call([state], console.log),
     cond(
       eq(state, State.BEGAN),
       [

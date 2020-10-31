@@ -1,24 +1,26 @@
 import React, { useCallback } from 'react'
-import { FlatList, ScrollView, TapGestureHandler } from 'react-native-gesture-handler';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FlatList } from 'react-native-gesture-handler';
 import styled from "styled-components/native";
 import Box from '~/components/UI/Box';
 import Text from '~/components/UI/Text';
 import faker from 'faker'
 import { Message, User } from 'types';
-import Circle from '~/components/UI/Circle';
-import FastImage from 'react-native-fast-image';
 import Avatar from '~/components/UI/Avatar';
 import Button from '~/components/UI/Button';
-import hexToRgba from 'hex-to-rgba';
-import dayjs from 'dayjs';
-import TapButton from '~/components/UI/TapButton'
-import Animated, { block } from 'react-native-reanimated';
 import OnLine from './Online';
 import MessageRow from './MessageRow';
+import appStore from '~/modules/stores/app_store';
+import { observer } from 'mobx-react-lite';
+import { useHeaderHeight } from '@react-navigation/stack';
+import { getWidth } from '~/modules/screen';
+import { BlurView } from '@react-native-community/blur';
+import Animated, { block, event } from 'react-native-reanimated';
+import { useValue } from 'react-native-redash';
 
 const MyContainer = styled.View`
 `
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 const fakeUsers: User[] = []
 
@@ -39,7 +41,10 @@ Array.from({ length: 30 }).forEach(() => fakeChatUsers.push({
 
 
 const Chat = () => {
-  const { top, bottom } = useSafeAreaInsets(); // inset of the status bar
+
+  const headerHeight = useHeaderHeight()
+  console.log(headerHeight)
+
   const renderItem = ({ item }: { item: User }) => {
     return (
       <Button height='auto' width={80} p='0'>
@@ -59,7 +64,6 @@ const Chat = () => {
   }
 
   const renderItemChat = useCallback(({ item }: { item: Message }) => {
-
     return (
       <MessageRow message={item} />
     )
@@ -87,19 +91,58 @@ const Chat = () => {
       />
     )
   }
+
+  const scrollY = useValue(0)
+
+  const onScroll = event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: scrollY,
+        },
+      },
+    },
+  ], { useNativeDriver: true })
+
+  const opacity = scrollY.interpolate({
+    inputRange: [0, 10],
+    outputRange: [0, 1],
+    extrapolate: Animated.Extrapolate.CLAMP
+  })
+
   return (
     <MyContainer
       style={{ backgroundColor: '#fff', flex: 1 }}>
-      <FlatList
+      <AnimatedFlatList
+        onScroll={onScroll}
         removeClippedSubviews
         ListHeaderComponent={HeaderList}
         data={fakeChatUsers}
         renderItem={renderItemChat}
         keyExtractor={keyExtractorChat}
-        contentContainerStyle={{ paddingBottom: bottom + 48, paddingTop: 10 }}
+        contentContainerStyle={{
+          paddingBottom: appStore.BottomTabHeight,
+          paddingTop: appStore.HeaderHeight + 10
+        }}
       />
+      <Animated.View style={{
+        position: 'absolute',
+        height: appStore.HeaderHeight,
+        width: getWidth(100),
+        opacity
+
+      }}>
+        <BlurView
+          style={{
+            width: '100%',
+            height: '100%'
+          }}
+          blurType='ultraThinMaterialLight'
+          blurAmount={10}
+        />
+      </Animated.View>
     </MyContainer>
   )
 }
 
-export default Chat
+export default observer(Chat)
