@@ -26,6 +26,7 @@ const StyledHeader = styled.View<Props>`
   position: relative;
   align-items: center;
   width: ${getWidth(100)}px;
+  padding: 0 10px;
   background-color: #fff;
   border-bottom-width: ${p => p.borderBottom ? '0.5px' : '0px'};
   border-bottom-color: rgba(0,0,0,0.2);

@@ -25,7 +25,6 @@ const TapButton: React.FC<{
     cond(
       contains([State.FAILED, State.CANCELLED, State.END], state),
       [
-        set(pressed, 0),
         onPressOut ? onPressOut : 0
       ]
     ),

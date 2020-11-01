@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import dayjs from 'dayjs'
 import hexToRgba from 'hex-to-rgba'
 import React, { useMemo } from 'react'
@@ -5,14 +6,15 @@ import Animated, { block, call, set } from "react-native-reanimated"
 import { interpolateColor, useClock, useValue, useValues } from 'react-native-redash'
 import { Message } from 'types'
 import runTiming from '~/modules/animation/runTiming'
-import Avatar from "../UI/Avatar"
-import Box from "../UI/Box"
-import TapButton from "../UI/TapButton"
-import Text from '../UI/Text'
+import Avatar from "~/components/UI/Avatar"
+import Box from "~/components/UI/Box"
+import TapButton from "~/components/UI/TapButton"
+import Text from '~/components/UI/Text'
 import OnLine from './Online'
 
 
 const MessageRow: React.FC<{ message: Message }> = ({ message }) => {
+  const navigation = useNavigation()
   const [value, dest] = useValues<number>(0, 0)
   const clock = useClock()
   const onPressIn = useMemo(() => block([
@@ -20,9 +22,23 @@ const MessageRow: React.FC<{ message: Message }> = ({ message }) => {
   ]), [])
 
   const onPressOut = useMemo(() => block([
-    set(dest, 0),
-    // navigate to chat
+    runTiming({
+      value: new Animated.Value(0),
+      dest: new Animated.Value(1),
+      clock: new Animated.Clock,
+      duration: 150,
+      onFinish: block([
+        set(value, 0),
+        set(dest, 0)
+      ])
+    })
   ]), [])
+
+  const onPress = block([
+    call([], () => {
+      navigation.navigate('chat')
+    }),
+  ])
 
   const bgColor = useMemo(() => interpolateColor(runTiming({
     value,
@@ -35,7 +51,7 @@ const MessageRow: React.FC<{ message: Message }> = ({ message }) => {
   }), []) as any as Animated.Node<string>
 
   return (
-    <TapButton onPressOut={onPressOut} onPressIn={onPressIn}>
+    <TapButton onPress={onPress} onPressOut={onPressOut} onPressIn={onPressIn}>
       <Box
         as={Animated.View}
         style={{ backgroundColor: bgColor }}
@@ -45,11 +61,11 @@ const MessageRow: React.FC<{ message: Message }> = ({ message }) => {
           <OnLine size={16} />
         </Box>
         <Box style={{ flex: 1 }} >
-          <Text style={{ marginBottom: 8 }} size={16} bold numberOfLines={1}>
+          <Text style={{ marginBottom: 8 }} size={16} bold='500' numberOfLines={1}>
             {message.name}
           </Text>
           <Box row justify='space-between' align='center'>
-            <Text style={{ flex: 1 }} color={hexToRgba('#000', 0.5)} size={16} bold numberOfLines={1}>
+            <Text style={{ flex: 1 }} color={hexToRgba('#000', 0.5)} size={16} numberOfLines={1}>
               {message.message}
             </Text>
             <Text>

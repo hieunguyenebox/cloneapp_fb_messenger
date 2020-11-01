@@ -13,7 +13,8 @@ export interface CustomTextProps {
 // Font weight không work trên Android. Sử dụng font family.
 const Text = styled.Text<CustomTextProps>`
   font-size: ${(p) => p.size || 14}px;
-  /* font-family: ${({ bold }) => (bold ? 'Muli-Bold' : 'Muli-Regular')}; */
+  font-family: OpenSans-Regular;
+  font-weight: ${p => typeof p.bold === 'boolean' ? 'bold' : p.bold || 'normal'};
   color: ${(p) => p.color || COLORS.text};
   margin: ${(p) => p.margin || '0'};
   padding: ${(p) => p.padding || '0'};
