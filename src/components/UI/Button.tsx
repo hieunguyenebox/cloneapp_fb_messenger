@@ -6,7 +6,6 @@ import { Platform, TouchableOpacityProps, TouchableOpacity as TouchableOpacityOr
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 import Box, { BoxProps } from './Box'
-import { COLORS } from './Constants'
 
 interface Props {
   height?: number | string
