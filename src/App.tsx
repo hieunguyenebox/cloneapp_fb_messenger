@@ -11,6 +11,9 @@ import ChatListHeader from '~/components/ChatList/ChatListHeader'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import appStore from './modules/stores/app_store';
 import Chat from './components/Chat/Chat';
+import { View } from 'react-native';
+import Text from './components/UI/Text';
+import ChatHeader from './components/Chat/ChatHeader';
 enableScreens();
 
 const Tab = createBottomTabNavigator()
@@ -28,8 +31,8 @@ const ChatStack = () => {
     <ChatNavigation.Navigator
     >
       <ChatNavigation.Screen
+        options={{ header: ChatListHeader }}
         component={ChatList}
-        options={{ title: 'Chats', header: ChatListHeader }}
         name='chat_list'
       />
     </ChatNavigation.Navigator>
@@ -53,14 +56,18 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <RootStack.Navigator>
+      <RootStack.Navigator
+        headerMode='screen'
+        initialRouteName='tab'
+      >
         <RootStack.Screen
-          name='bottom_tab'
-          options={{ headerShown: false }}
+          name='tab'
+          options={{ title: 'Chats', headerShown: false }}
           component={BottomTabStack}
         />
         <RootStack.Screen
           name='chat'
+          options={{ header: ChatHeader }}
           component={Chat}
         />
       </RootStack.Navigator>

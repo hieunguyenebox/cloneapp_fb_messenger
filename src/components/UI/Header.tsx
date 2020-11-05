@@ -26,7 +26,6 @@ const StyledHeader = styled.View<Props>`
   position: relative;
   align-items: center;
   width: ${getWidth(100)}px;
-  padding: 0 10px;
   background-color: #fff;
   border-bottom-width: ${p => p.borderBottom ? '0.5px' : '0px'};
   border-bottom-color: rgba(0,0,0,0.2);
@@ -52,25 +51,25 @@ const MyHeader: React.FC<Props & ViewProps> = ({
 
   return (
     <StyledHeader
-      style={[{ height: appStore.HeaderHeight, paddingTop: top }, style]}
+      style={[{ height: appStore.HeaderHeight, paddingTop: top, overflow: 'hidden' }, style]}
       {...rest}
     >
       <Box
         width={getWidth(15)}
         height='100%' align='center' justify='center'>
         {left !== undefined ? left : (
-          <Button style={{ paddingLeft: 20 }} onPress={onPress}>
+          <Button onPress={onPress}>
             <Icon name='chevron-back' size={30} />
           </Button>
         )}
       </Box>
       <Box
         height='100%'
+        justify='center'
+        align='center'
         style={{
           flex: 1,
         }}
-        justify='center'
-        align='center'
       >
         {typeof title === 'string' ?
           <Text numberOfLines={1} style={{ maxWidth: getWidth(60) }} bold size={16} {...titleStyle}>
@@ -79,9 +78,7 @@ const MyHeader: React.FC<Props & ViewProps> = ({
           : title
         }
       </Box>
-      <Box width={getWidth(15)} height='100%' align='center' justify='center'>
-        {right}
-      </Box>
+      {right}
     </StyledHeader>
   )
 }

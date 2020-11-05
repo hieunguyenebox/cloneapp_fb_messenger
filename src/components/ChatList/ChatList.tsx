@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import styled from "styled-components/native";
 import Box from '~/components/UI/Box';
@@ -17,6 +17,8 @@ import Animated, { event, interpolate, multiply } from 'react-native-reanimated'
 import { useValue } from 'react-native-redash';
 import hexToRgba from 'hex-to-rgba';
 import Icon from '../UI/Icon';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const MyContainer = styled.View`
 `
@@ -52,12 +54,13 @@ Array.from({ length: 30 }).forEach(() => fakeChatUsers.push({
 
 const Chat = () => {
 
+  const { t } = useTranslation()
   const renderItem = ({ item }: { item: User }) => {
     return (
-      <Button height='auto' width={70} activeOpacity={1} p='0'>
+      <Button height='auto' width={80} activeOpacity={1} p='0'>
         <Box align='center' justify='center' width='100%'>
           <Box>
-            <Avatar border='0.5px solid rgba(0,0,0,0.1)' size={50} source={{ uri: item.avatar }} />
+            <Avatar border='0.5px solid rgba(0,0,0,0.1)' size={60} source={{ uri: item.avatar }} />
             <OnLine
               size={16}
             />
@@ -82,7 +85,6 @@ const Chat = () => {
 
     return (
       <Box>
-
         <FlatList
           style={{
             maxHeight: 100,
@@ -90,7 +92,6 @@ const Chat = () => {
             paddingRight: 10,
             marginBottom: 20
           }}
-          decelerationRate={0.991}
           removeClippedSubviews
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ alignItems: 'center' }}
@@ -163,7 +164,7 @@ const Chat = () => {
           <Icon color={hexToRgba('#000', 0.5)} name='search-outline' size={22} />
           <TextInput
             allowFontScaling={false}
-            placeholder='Search for people or businesses'
+            placeholder={t('Search for people or businesses')}
             placeholderTextColor={hexToRgba('#000', 0.5)}
             style={{ fontSize: 16, marginLeft: 5, height: '100%', flex: 1 }} />
         </InputContainer>
@@ -173,6 +174,7 @@ const Chat = () => {
         ref={ref}
         onScroll={onScroll}
         removeClippedSubviews
+        keyboardDismissMode='on-drag'
         scrollEventThrottle={1}
         ListHeaderComponent={HeaderList}
         data={fakeChatUsers}
