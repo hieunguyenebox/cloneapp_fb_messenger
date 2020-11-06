@@ -26,7 +26,7 @@ const MessageRow: React.FC<{ message: Message }> = ({ message }) => {
       value: new Animated.Value(0),
       dest: new Animated.Value(1),
       clock: new Animated.Clock,
-      duration: 150,
+      duration: 100,
       onFinish: block([
         set(value, 0),
         set(dest, 0)

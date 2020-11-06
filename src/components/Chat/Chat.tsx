@@ -8,6 +8,7 @@ import Animated from 'react-native-reanimated'
 import Input from './Input'
 import { getWidth } from '~/modules/screen'
 import Text from '../UI/Text'
+import { KeyboardAvoidingView } from 'react-native'
 
 const AnimatedFlatList: typeof FlatList = Animated.createAnimatedComponent(FlatList)
 
@@ -32,17 +33,19 @@ const Chat = () => {
   const renderItem = useCallback(({ item }) => <Box height={100} bg='red' width={getWidth(100)}><Text>{item}</Text></Box>, [])
   const keyExtractor = useCallback((item) => item, [])
   return (
-    <MyContainer width={getWidth(100)} bg='#fff'>
-      <AnimatedFlatList
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingTop: bottom + 48 }}
-        inverted
-        data={messages}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-      />
-      <Input />
-    </MyContainer>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding' keyboardVerticalOffset={-bottom}>
+      <MyContainer width={getWidth(100)} bg='#fff'>
+        <AnimatedFlatList
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingTop: bottom + 48 }}
+          inverted
+          data={messages}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
+        <Input />
+      </MyContainer>
+    </KeyboardAvoidingView>
   )
 }
 

@@ -1,6 +1,6 @@
 
 const Colors = {
-  blue: 'blue'
+  blue: '#2f7fea'
 }
 
 export default Colors

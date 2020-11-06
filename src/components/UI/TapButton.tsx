@@ -38,7 +38,7 @@ const TapButton: React.FC<{
         set(pressed, 0),
       ]
     )
-  ]), [onPress])
+  ]), [])
 
   return (
     <TapGestureHandler {...gestureHandler}>
